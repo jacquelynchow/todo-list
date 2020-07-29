@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Draggable from "react-draggable";
 
 function TodosComponent() {
     /* declare new state variables by calling useState hook */
@@ -16,7 +17,6 @@ function TodosComponent() {
     }, [] );
     /* function for creating a new todo and pushing it to the todo list */
     function createNewTodo(currentTodo) {
-        console.log(todos);
         /* make a copy of the todos array using ellipses */
         if (todos != null) {
             let todosArray = [...todos];
@@ -31,7 +31,7 @@ function TodosComponent() {
             /* update todos array in state by using setTodos */
             setTodos(todosArray);
     // if list is empty add this thing, push directly to state
-    } else {
+        } else {
             let firstTodo = [{
                 todo: currentTodo,
                 isCompleted: false
@@ -63,9 +63,11 @@ function TodosComponent() {
 
     };
     return (
+    <Draggable>
+      <div className="drag-box">    
         <div>
             <h1><span role="img" aria-label="lightbulb-emoji">💡</span> To Do List <span role="img" aria-label="lightbulb-emoji">💡</span></h1>
-            <p>
+            <p> 
                 {todos && todos.length > 0 && `${todos.length} items`}
             </p>
             <input 
@@ -88,7 +90,7 @@ function TodosComponent() {
             {
                 /* print todos list 
                 if todos is not undefined */
-                todos !== undefined && todos.map((todo, index) => (
+                todos && todos !== undefined && todos.map((todo, index) => (
                     /* keys should be given to the elements inside the array to give the elements a stable identity */
                     <div key = {todo} className = "todo">
                         <div className = "checkbox" onClick = {() => completeTodo(index)}>
@@ -107,7 +109,9 @@ function TodosComponent() {
                     </div>
                 ))
             }
-        </div>       
+        </div> 
+      </div>  
+    </Draggable>  
     );
 }
 
